@@ -46,7 +46,8 @@ example scripts in the examples directory.
 -------------------------------------------------------------------------------
 INSTALLATION:
 
-This module requires Inline.pm version 0.31 or higher to be installed.
+This module requires Inline.pm and Inline::C.pm version 0.42 or higher to 
+be installed.
 
 To install Inline::ASM do this:
 

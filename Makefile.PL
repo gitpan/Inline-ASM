@@ -1,26 +1,30 @@
 use ExtUtils::MakeMaker;
 use Config;
 
+#============================================================================
+# We'll do our own prerequisite checking, since MakeMaker does it
+# in a way that always fails: 'use Inline::C 0.33' will never work.
+#============================================================================
+eval { require Inline::C };
+warn "Warning: prerequisite Inline::C  version 0.42 not found"
+  if $@ or $Inline::C::VERSION < 0.42;
+
 #=============================================================================
 # Guess suitable defaults for assembler, compiler, linker, etc.
 #=============================================================================
 my $asm_guess;
 my $cc_guess;
-my $ld_guess;
 if ($Config{osname} =~ /^MSWin/) {
     $asm_guess = 'nasm';
     $cc_guess = 'cl';
-    $ld_guess = 'link';
 }
 elsif ($Config{osname} eq 'linux') {
     $asm_guess = 'as';
     $cc_guess = 'gcc';
-    $ld_guess = 'gcc';
 }
 else {
     $asm_guess = 'as';
     $cc_guess = 'gcc';
-    $ld_guess = 'gcc';
 }
 
 my %asflags_guess = 
@@ -43,8 +47,6 @@ print
   "Inline::ASM needs a C compiler to generate the Assembler-Perl bindings.\n";
 my $cc = prompt("What C compiler would you like to use?",
                 $cc_guess);
-my $ld = prompt("What linker would you like to use?", $ld_guess);
-
 #=============================================================================
 # Apply these defaults
 #=============================================================================
@@ -56,7 +58,6 @@ for (@lines) {
     s|\@ASSEMBLER|$asm| if m|\# default assembler|;
     s|\@ASFLAGS|$asflags| if m|\# default asm flags|;
     s|\@COMPILER|$cc| if m|\# default compiler|;
-    s|\@LINKER|$ld| if m|\# default linker|;
 }
 
 open ASM, ">ASM.pm"
@@ -70,5 +71,8 @@ close ASM;
 WriteMakefile(
 	      NAME => 'Inline::ASM',
 	      VERSION_FROM => 'ASM.pm',
+	      PREREQ_PM => {
+			    Inline => 0.42,
+			   },
 	      clean => {FILES => '_Inline_test/'},
 	     );
