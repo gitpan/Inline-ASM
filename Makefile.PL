@@ -8,7 +8,7 @@ my $asm_guess;
 my $cc_guess;
 my $ld_guess;
 if ($Config{osname} =~ /^MSWin/) {
-    $asm_guess = 'masm';
+    $asm_guess = 'nasm';
     $cc_guess = 'cl';
     $ld_guess = 'link';
 }
@@ -48,7 +48,7 @@ my $ld = prompt("What linker would you like to use?", $ld_guess);
 #=============================================================================
 # Apply these defaults
 #=============================================================================
-open ASM, "ASM_pm";
+open ASM, "ASM.pm";
 my @lines = <ASM>;
 close ASM;
 
@@ -70,5 +70,5 @@ close ASM;
 WriteMakefile(
 	      NAME => 'Inline::ASM',
 	      VERSION_FROM => 'ASM.pm',
-	      clean => {FILES => 'ASM.pm _Inline_test/'},
+	      clean => {FILES => '_Inline_test/'},
 	     );

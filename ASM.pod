@@ -157,7 +157,7 @@ The biggest difference between Inline::C and Inline::ASM is that you
 don't get the luxury of sitting in a macro-rich C environment. You
 have to do some work.
 
-=head2 The Perl API in Assembler
+=head2 The Perl API in Assembler (EXPERIMENTAL)
 
 If you're using any Perl API calls, you need to pass a special
 variable to your assembler function: pTHX. This is actually a macro

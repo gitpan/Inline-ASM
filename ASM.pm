@@ -8,7 +8,7 @@ use FindBin;
 use Carp;
 use Cwd qw(cwd abs_path);
 
-$Inline::ASM::VERSION = '0.01';
+$Inline::ASM::VERSION = '0.02';
 @Inline::ASM::ISA = qw(Inline);
 
 #==============================================================================
